@@ -42,3 +42,22 @@ jobs:
         with:
           name: unit-test-report
           path: app/build/reports/tests/testDebugUnitTest/index.html
+
+  instrumented-tests:
+    needs:
+      - unit-tests
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Instrumented Tests
+        run: ./gradlew connectedDebugAndroidTest
+
+      - name: Upload Instrumented Test Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: instrumented-test-report
+          path: app/build/reports/androidTests/connected/index.html
