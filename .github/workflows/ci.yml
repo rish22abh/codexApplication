@@ -51,6 +51,12 @@ jobs:
           name: unit-test-report
           path: app/build/reports/tests/testDebugUnitTest/index.html
 
+  cd:
+    needs:
+      - unit-tests
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Build debug APK
         run: ./gradlew assembleDebug
 
