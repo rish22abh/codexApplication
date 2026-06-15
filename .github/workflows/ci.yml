@@ -12,7 +12,17 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17               # FIX 2: was missing entirely
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant gradlew permission
+        run: chmod +x gradlew
 
       - name: Run Android Lint
         run: ./gradlew lintDebug
@@ -39,7 +49,17 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17               # FIX 2: was missing entirely
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant gradlew permission
+        run: chmod +x gradlew
 
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
@@ -58,7 +78,20 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17               # FIX 2: was missing entirely
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant gradlew permission
+        run: chmod +x gradlew
+
+      - name: Check APK path              # BONUS: helps debug path issues
+        run: find . -name "*.apk" -type f || echo "No APK found yet"
 
       - name: Build debug APK
         run: ./gradlew assembleDebug
