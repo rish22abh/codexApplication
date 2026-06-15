@@ -103,16 +103,25 @@ jobs:
           path: app/build/outputs/apk/debug/app-debug.apk
           retention-days: 1
 
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+          # Safely write the JSON secret payload directly into a real workspace file
+      - name: Generate Credential File
+        run: |
+          cat << 'EOF' > ${{ github.workspace }}/firebase_credentials.json
+          ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          EOF
+
       - name: Distribute to Firebase App Distribution
-        if: github.event_name == 'push'
         uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{ secrets.FIREBASE_APP_ID }}
-          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          groups: qa-team              # the tester group name you created
+          # Switch inputs to target the secure workspace file path
+          serviceCredentialsFile: ${{ github.workspace }}/firebase_credentials.json
+          groups: qa-team
           releaseNotes: |
             Branch: ${{ github.ref_name }}
             Commit: ${{ github.sha }}
-            Run: ${{ github.run_number }}
           file: app/build/outputs/apk/debug/app-debug.apk
           debug: true
