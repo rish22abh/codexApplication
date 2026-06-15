@@ -115,3 +115,4 @@ jobs:
             Commit: ${{ github.sha }}
             Run: ${{ github.run_number }}
           file: app/build/outputs/apk/debug/app-debug.apk
+          debug: true
