@@ -53,12 +53,6 @@ class TaskListViewModel @Inject constructor(
             initialValue = TaskListUiState()
         )
 
-    init {
-        viewModelScope.launch {
-            todoRepository.seedInitialTasksIfEmpty()
-        }
-    }
-
     fun onSearchQueryChanged(query: String) {
         searchQuery.value = query
     }

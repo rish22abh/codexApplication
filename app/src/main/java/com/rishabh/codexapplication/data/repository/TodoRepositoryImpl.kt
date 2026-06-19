@@ -30,36 +30,7 @@ class TodoRepositoryImpl @Inject constructor(
     override suspend fun deleteTodo(id: Long) {
         todoDao.deleteTodo(id)
     }
-
-    override suspend fun seedInitialTasksIfEmpty() {
-        if (todoDao.countTodos() > 0) return
-
-        val now = System.currentTimeMillis()
-        sampleTasks.forEachIndexed { index, todo ->
-            todoDao.upsert(todo.copy(createdAt = now + index).toEntity())
-        }
-    }
 }
-
-private val sampleTasks = listOf(
-    Todo(
-        title = "Wire Room entities",
-        description = "Entity, DAO, Database"
-    ),
-    Todo(
-        title = "Create Hilt module",
-        description = "Repository binding",
-        isCompleted = true
-    ),
-    Todo(
-        title = "Build detail form state",
-        description = "Title and description"
-    ),
-    Todo(
-        title = "Connect NavHost routes",
-        description = "List to editor"
-    )
-)
 
 private fun TodoEntity.toDomain(): Todo {
     return Todo(

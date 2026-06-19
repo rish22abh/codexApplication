@@ -9,5 +9,4 @@ interface TodoRepository {
     suspend fun saveTodo(todo: Todo): Long
     suspend fun setCompleted(id: Long, isCompleted: Boolean)
     suspend fun deleteTodo(id: Long)
-    suspend fun seedInitialTasksIfEmpty()
 }
